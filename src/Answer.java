@@ -8,12 +8,20 @@ public class Answer {
         this.isCorrect = isCorrect;
     }
 
-    public void setCorrect(boolean isCorrect){
-        this.isCorrect = isCorrect;
+    public String getAnswerString(){
+        return this.answerString;
+    }
+
+    public void setAnswerString(String answerString){
+        this.answerString = answerString;
     }
 
     public boolean isCorrect(){
         return this.isCorrect;
+    }
+
+    public void setCorrect(boolean isCorrect){
+        this.isCorrect = isCorrect;
     }
 
     public boolean equals(Answer other){

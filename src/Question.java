@@ -1,68 +1,61 @@
 import java.util.Set;
 import java.util.HashSet;
 
-public class Question {
-    
-    private String questionString;
+public class Question implements QuestionInterface {
 
-    private boolean isMultipleChoice;
+    protected String questionString;
     
-    private Set<Answer> answersList;
+    protected Set<Answer> answerList;
 
-    public Question(String questionString, boolean isMultipleChoice){
+    public Question(String questionString){
         this.questionString = questionString;
-        this.isMultipleChoice = isMultipleChoice;
-        answersList = new HashSet<Answer>();
+        answerList = new HashSet<Answer>();
     }
-
-    public String getQuestionString(){
+    
+    @Override
+    public String getQuestionString() {
         return this.questionString;
     }
 
-    public void setQuestionString(String questionString){
+    @Override
+    public void setQuestionString(String questionString) {
         this.questionString = questionString;
     }
 
-    public void addPossibleAnswer(String answerString, boolean isCorrect){
-        if (isCorrect && !this.isMultipleChoice && this.hasCorrectAnswer()){
+    @Override
+    public void addPossibleAnswer(String answerString, boolean isCorrect) {
+        if (isCorrect && this.hasCorrectAnswer()){
             throw new UnsupportedOperationException("Can't have multiple correct answers for this question.");
         }
-
-        if  (!answersList.add(new Answer(answerString, isCorrect))){
+        
+        if  (!answerList.add(new Answer(answerString, isCorrect))){
             throw new IllegalArgumentException("That answer is already a possible answer.");
         }
     }
 
-    public void removePossibleAnswer(String answerString){
-        for(Answer ans : answersList){
-            if (ans.equals(answerString)){
-                this.answersList.remove(ans);
-                return;
-            }
-        }
+    @Override
+    public void addPossibleAnswer(Answer answer) {
+        addPossibleAnswer(answer.getAnswerString(), answer.isCorrect());
     }
 
-    public void removePossibleAnswer(Answer possibleAnswer){
-        this.answersList.remove(possibleAnswer);
+    @Override
+    public void addCorrectAnswer(String answerString) {
+        addPossibleAnswer(answerString, true);
     }
 
-    public void addCorrectAnswer(String possibleAnswer){
-        if (!this.isMultipleChoice && this.hasCorrectAnswer()){
-            throw new UnsupportedOperationException("Can't have multiple correct answers for this question.");
-        }
-
-        for(Answer ans : answersList){
-            if (ans.equals(possibleAnswer)){
-                ans.setCorrect(true);
-                return;
-            }
-        }
-
-        answersList.add(new Answer(possibleAnswer, true));
+    @Override
+    public void removePossibleAnswer(String answerString) {
+        removePossibleAnswer(new Answer(answerString, false));
     }
 
+    @Override
+    public void removePossibleAnswer(Answer answer) {
+        this.answerList.remove(answer);
+    }
+
+    @Override
     public boolean hasCorrectAnswer(){
-        for(Answer ans : answersList){
+        for(Answer ans : this.answerList){
             if (ans.isCorrect()){
                 return true;
             }
@@ -72,4 +65,3 @@ public class Question {
     }
 
 }
-
