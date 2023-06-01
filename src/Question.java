@@ -26,6 +26,15 @@ public class Question {
         }
     }
 
+    public void removePossibleAnswer(String answerString){
+        for(Answer ans : answersList){
+            if (ans.equals(answerString)){
+                this.answersList.remove(ans);
+                return;
+            }
+        }
+    }
+
     public void addCorrectAnswer(String possibleAnswer){
         for(Answer ans : answersList){
             if (ans.equals(possibleAnswer)){
