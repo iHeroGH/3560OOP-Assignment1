@@ -5,10 +5,13 @@ public class Question implements QuestionInterface {
 
     protected String questionString;
     
+    protected boolean isMultipleChoice;
+
     protected Set<Answer> answerList;
 
     public Question(String questionString){
         this.questionString = questionString;
+        this.isMultipleChoice = false;
         answerList = new HashSet<Answer>();
     }
     
@@ -20,6 +23,11 @@ public class Question implements QuestionInterface {
     @Override
     public void setQuestionString(String questionString) {
         this.questionString = questionString;
+    }
+
+    @Override
+    public Set<Answer> getPossibleAnswers(){
+        return this.answerList;
     }
 
     @Override
@@ -55,13 +63,18 @@ public class Question implements QuestionInterface {
 
     @Override
     public boolean hasCorrectAnswer(){
-        for(Answer ans : this.answerList){
+        for (Answer ans : this.answerList){
             if (ans.isCorrect()){
                 return true;
             }
         }
 
         return false;
+    }
+
+    @Override
+    public boolean getIsMultipleChoice(){
+        return this.isMultipleChoice;
     }
 
 }

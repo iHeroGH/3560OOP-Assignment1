@@ -16,6 +16,34 @@ public class Student {
         this.setID(studentID);
     }
 
+    public int getAnswerIndex(Set<Answer> possibleAnswers){
+        double randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
+        int answerIndex = (int) Math.floor(randomNum);
+
+        return answerIndex;
+    }
+
+    public int getAnswerIndex(Question question){
+        return getAnswerIndex(question.getPossibleAnswers());
+    }
+
+    public Answer chooseAnswer(Question question){
+
+        Set<Answer> possibleAnswers = question.getPossibleAnswers();
+        
+        int answerIndex = getAnswerIndex(possibleAnswers);
+
+        int i = 0;
+        for (Answer ans : possibleAnswers){
+            if (i == answerIndex){
+                return ans;
+            }
+            i += 1;
+        }
+
+        return new Answer("", false);
+    }
+
     public String getID(){
         return this.studentID;
     }
@@ -45,7 +73,7 @@ public class Student {
                                     + "abcdefghijklmnopqrstuvwxyz";
         
         String generatedID = "";
-        for(int i = 0; i < ID_LENGTH; i++){
+        for (int i = 0; i < ID_LENGTH; i++){
             double randomNum = Math.random()*(possibleCharacters.length()-1) + 1;
             int characterIndex = (int) Math.floor(randomNum);
             

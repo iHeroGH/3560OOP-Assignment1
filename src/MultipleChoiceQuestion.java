@@ -2,6 +2,7 @@ public class MultipleChoiceQuestion extends Question{
 
     public MultipleChoiceQuestion(String questionString){
         super(questionString);
+        this.isMultipleChoice = true;
     }
 
     @Override
