@@ -24,12 +24,30 @@ public class Answer {
         this.isCorrect = isCorrect;
     }
 
+    @Override
+    public int hashCode(){
+        return this.answerString.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other){
+        if (!(other instanceof Answer)){
+            return false;
+        }
+
+        return this.equals((Answer) other);
+    }
+
     public boolean equals(Answer other){
-        return this.answerString == other.answerString;
+        return this.equals(other.answerString);
     }
 
     public boolean equals(String answerString){
-        return this.answerString == answerString;
+        return this.answerString.equals(answerString);
+    }
+
+    public String toString(){
+        return "Answer(" + this.answerString + ", " + this.isCorrect + ")";
     }
 
 }

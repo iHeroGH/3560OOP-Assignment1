@@ -33,12 +33,17 @@ public class Question implements QuestionInterface {
     @Override
     public void addPossibleAnswer(String answerString, boolean isCorrect) {
         if (isCorrect && this.hasCorrectAnswer()){
-            throw new UnsupportedOperationException("Can't have multiple correct answers for this question.");
+            throw new UnsupportedOperationException("Question already has a correct answer.");
         }
         
         if  (!answerList.add(new Answer(answerString, isCorrect))){
-            throw new IllegalArgumentException("That answer is already a possible answer.");
+            throw new IllegalArgumentException("Answer is already a possible answer.");
         }
+    }
+
+    @Override
+    public void addPossibleAnswer(String answerString) {
+        addPossibleAnswer(answerString, false);
     }
 
     @Override

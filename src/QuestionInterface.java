@@ -8,6 +8,7 @@ public interface QuestionInterface {
     public Set<Answer> getPossibleAnswers();
 
     public void addPossibleAnswer(String answerString, boolean isCorrect);
+    public void addPossibleAnswer(String answerString);
     public void addPossibleAnswer(Answer answer);
     public void addCorrectAnswer(String answerString);
 

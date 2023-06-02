@@ -60,14 +60,15 @@ public class VotingService {
                 System.out.println(this.statistics[questionIndex][answerIndex]);
                 
                 if (answer.isCorrect()){
-                    correctAnswersString += "\"" + answer.getAnswerString() + "\"";
+                    correctAnswersString += "\"" + answer.getAnswerString() + "\" ";
                 }
 
                 answerIndex++;
             }
 
-            System.out.println(correctAnswersString);
-
+            System.out.println(correctAnswersString + "\n");
+            correctAnswersString = "Correct Answers: ";
+            
             questionIndex++;
         }
 
