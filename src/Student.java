@@ -33,15 +33,7 @@ public class Student {
         
         int answerIndex = getAnswerIndex(possibleAnswers);
 
-        int i = 0;
-        for (Answer ans : possibleAnswers){
-            if (i == answerIndex){
-                return ans;
-            }
-            i += 1;
-        }
-
-        return new Answer("", false);
+        return question.getAnswerAtPosition(answerIndex);
     }
 
     public String getID(){

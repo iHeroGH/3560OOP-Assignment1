@@ -82,4 +82,18 @@ public class Question implements QuestionInterface {
         return this.isMultipleChoice;
     }
 
+    public Answer getAnswerAtPosition(int answerIndex){
+        
+        int i = 0;
+        for (Answer ans : this.answerList){
+            if (i == answerIndex){
+                return ans;
+            }
+            i += 1;
+        }
+
+        return new Answer("", false);
+
+    }
+
 }

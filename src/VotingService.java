@@ -6,13 +6,15 @@ public class VotingService {
     
     protected Set<Student> studentList;
     protected Set<Question> questionList;
+    protected int numCorrect;
+    protected int numWrong;
     protected int[][] statistics;
 
     public VotingService(Student[] studentList, Question[] questionList){
-        this.studentList = new HashSet<Student>(Arrays.asList(studentList));
-        this.questionList = new HashSet<Question>(Arrays.asList(questionList));
-
-        initializeStatistics(this.questionList.size());
+        this(
+            new HashSet<Student>(Arrays.asList(studentList)),
+            new HashSet<Question>(Arrays.asList(questionList))
+        );
     }
 
     public VotingService(Set<Student> studentList, Set<Question> questionList){
@@ -40,6 +42,12 @@ public class VotingService {
             for (Question question : questionList){
                 answerIndex = student.getAnswerIndex(question);
                 this.statistics[questionIndex][answerIndex]++;
+                
+                if (question.getAnswerAtPosition(answerIndex).isCorrect()){
+                    this.numCorrect++;
+                } else {
+                    this.numWrong++;
+                }
 
                 questionIndex++;
             }   
@@ -49,28 +57,29 @@ public class VotingService {
     public void printStatistics(){
         int questionIndex = 0;
         int answerIndex = 0;
-        String correctAnswersString = "Correct Answers: ";
 
         for (Question question : questionList){
             System.out.println(question.getQuestionString());
             answerIndex = 0;
             
             for (Answer answer : question.getPossibleAnswers()){
-                System.out.print(answer.getAnswerString() + " : ");
-                System.out.println(this.statistics[questionIndex][answerIndex]);
-                
                 if (answer.isCorrect()){
-                    correctAnswersString += "\"" + answer.getAnswerString() + "\" ";
+                    System.out.print(answer.getAnswerString() + " : ");
+                    System.out.print(this.statistics[questionIndex][answerIndex]);
+                    System.out.println("**");
+                } else {
+                    System.out.print(answer.getAnswerString() + " : ");
+                    System.out.println(this.statistics[questionIndex][answerIndex]);
                 }
 
                 answerIndex++;
             }
-
-            System.out.println(correctAnswersString + "\n");
-            correctAnswersString = "Correct Answers: ";
             
+            System.out.println();
             questionIndex++;
         }
-
+        
+        System.out.println("Total Correct: " + this.numCorrect);
+        System.out.println("Total Incorrect: " + this.numWrong);
     }
 }
