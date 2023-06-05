@@ -5,7 +5,7 @@ import java.util.HashSet;
  * The simple Question object implements the QuestionInterface (and justly has
  * Override methods for all the necessary methods)
  * 
- * Featuring a questionString, an isMultipleChoice attribute, and an answersList,
+ * Featuring a questionString, an isMultipleChoice attribute, and an answersSet,
  * we are able to create a modifiable Question object (that can later be inherited
  * for multiple-choice questions)
  * 
@@ -25,9 +25,9 @@ public class Question implements QuestionInterface {
     protected boolean isMultipleChoice;
 
     /**
-     * The list of possible answers for the question
+     * The Set of possible answers for the question
      */
-    protected Set<Answer> answerList;
+    protected Set<Answer> answerSet;
 
     /**
      * A simple constructor for a Question object, only takes a questionString
@@ -35,14 +35,14 @@ public class Question implements QuestionInterface {
      * Sets isMultipleChoice to false since multiple choice questions have their
      * own class
      * 
-     * Sets the answerList Set to an empty HashSet
+     * Sets the answerSet Set to an empty HashSet
      * 
      * @param questionString The String of the question text
      */
     public Question(String questionString){
         this.questionString = questionString;
         this.isMultipleChoice = false;
-        answerList = new HashSet<Answer>();
+        answerSet = new HashSet<Answer>();
     }
     
     /**
@@ -66,7 +66,7 @@ public class Question implements QuestionInterface {
      */
     @Override
     public Set<Answer> getPossibleAnswers(){
-        return this.answerList;
+        return this.answerSet;
     }
 
     /**
@@ -76,7 +76,7 @@ public class Question implements QuestionInterface {
     public Answer getAnswerAtPosition(int answerIndex){
 
         int i = 0;
-        for (Answer ans : this.answerList){
+        for (Answer ans : this.answerSet){
             if (i == answerIndex){
                 return ans;
             }
@@ -91,15 +91,15 @@ public class Question implements QuestionInterface {
      */
     @Override
     public Set<Answer> getAnswersAtPositions(Set<Integer> answerIndices){
-        Set<Answer> answersList = new HashSet<Answer>();
+        Set<Answer> answersSet = new HashSet<Answer>();
         
         for(int answerIndex : answerIndices){
             Answer ansAtPos = getAnswerAtPosition(answerIndex);
             if (!ansAtPos.equals(""))
-                answersList.add(ansAtPos);
+                answersSet.add(ansAtPos);
         }
 
-        return answersList;
+        return answersSet;
 
     }
 
@@ -115,7 +115,7 @@ public class Question implements QuestionInterface {
             throw new UnsupportedOperationException("Question already has a correct answer.");
         }
         
-        if  (!answerList.add(new Answer(answerString, isCorrect))){
+        if  (!answerSet.add(new Answer(answerString, isCorrect))){
             throw new IllegalArgumentException("Answer is already a possible answer.");
         }
     }
@@ -158,7 +158,7 @@ public class Question implements QuestionInterface {
      */
     @Override
     public void removePossibleAnswer(Answer answer) {
-        this.answerList.remove(answer);
+        this.answerSet.remove(answer);
     }
 
     /**
@@ -166,7 +166,7 @@ public class Question implements QuestionInterface {
      */
     @Override
     public boolean hasCorrectAnswer(){
-        for (Answer ans : this.answerList){
+        for (Answer ans : this.answerSet){
             if (ans.isCorrect()){
                 return true;
             }

@@ -2,7 +2,7 @@
  * The MultipleChoiceQuestion extends the Question class and simply removes the
  * check for if multiple answers are being added to a question
  * 
- * Featuring a questionString, an isMultipleChoice attribute, and an answersList,
+ * Featuring a questionString, an isMultipleChoice attribute, and an answersSet,
  * we are able to create a modifiable Question object (that can later be inherited
  * for multiple-choice questions)
  * 
@@ -34,7 +34,7 @@ public class MultipleChoiceQuestion extends Question{
      */
     @Override
     public void addPossibleAnswer(String answerString, boolean isCorrect) {
-        if  (!this.answerList.add(new Answer(answerString, isCorrect))){
+        if  (!this.answerSet.add(new Answer(answerString, isCorrect))){
             throw new IllegalArgumentException("That answer is already a possible answer.");
         }
     }

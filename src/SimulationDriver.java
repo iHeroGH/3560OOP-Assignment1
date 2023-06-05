@@ -4,14 +4,14 @@ import java.util.HashSet;
 public class SimulationDriver {
 
     public static void main(String[] args){
-        Set<Student> studentList = new HashSet<Student>();
-        studentList.add(new Student());
-        // studentList.add(new Student());
-        // studentList.add(new Student());
-        // studentList.add(new Student());
-        // studentList.add(new Student());
-        // studentList.add(new Student());
-        // studentList.add(new Student());
+        Set<Student> studentSet = new HashSet<Student>();
+        studentSet.add(new Student());
+        // studentSet.add(new Student());
+        // studentSet.add(new Student());
+        // studentSet.add(new Student());
+        // studentSet.add(new Student());
+        // studentSet.add(new Student());
+        // studentSet.add(new Student());
 
         QuestionInterface q1 = new Question("What is 1 + 1?");
         q1.addCorrectAnswer("2");
@@ -32,12 +32,12 @@ public class SimulationDriver {
         q3.addCorrectAnswer("40");
         q3.addPossibleAnswer("43", false);
         
-        Set<QuestionInterface> questionList = new HashSet<QuestionInterface>();
-        questionList.add(q1);
-        questionList.add(q2);
-        questionList.add(q3);
+        Set<QuestionInterface> questionSet = new HashSet<QuestionInterface>();
+        questionSet.add(q1);
+        questionSet.add(q2);
+        questionSet.add(q3);
 
-        VotingService vs = new VotingService(studentList, questionList);
+        VotingService vs = new VotingService(studentSet, questionSet);
         vs.chooseAnswers();
         vs.printStatistics();
     }
