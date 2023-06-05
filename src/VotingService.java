@@ -63,6 +63,7 @@ public class VotingService {
      * @param questionArray The Array of Questions
      */
     public VotingService(Student[] studentArray, QuestionInterface[] questionArray){
+        // Generate HashSets of the given Java Arrays and call the main constructor
         this(
             new HashSet<Student>(Arrays.asList(studentArray)),
             new HashSet<QuestionInterface>(Arrays.asList(questionArray))
@@ -89,13 +90,16 @@ public class VotingService {
      * and how many answers exist for each question
      */
     private void initializeStatistics(){
+        // As many rows as there are questions
         this.statistics = new int[this.questionSet.size()][];
 
+        // As many columns as there are answers to each question
         int i = 0;
         for (QuestionInterface question : this.questionSet){
             this.statistics[i++] = new int[question.getPossibleAnswers().size()];
         }
 
+        // To maintain validation
         this.hasVoted = false;
     }
 
@@ -106,27 +110,38 @@ public class VotingService {
      * Records the statistics to be printed later.
      */
     public void chooseAnswers(){
-        int questionIndex = 0;
+        // Initialize the Set of answer indices so we don't recreate it each iteration
         Set<Integer> answerIndices = null;
+        // The index of the question we're currently on
+        int questionIndex = 0;
 
+        // Loop through each student
         for (Student student : studentSet){
-            questionIndex = 0;
+            questionIndex = 0; // We have a new Student, so start at the first question
+
+            // Loop through each question and see what answers the Student responds with
             for (QuestionInterface question : questionSet){
+                
+                // Get the indices of chosen answers
                 answerIndices = student.getAnswerIndices(question);
+                // Loop  through each index
                 for(int answerIndex : answerIndices) {
+                    // Update the main statistics table
                     this.statistics[questionIndex][answerIndex]++;
                     
+                    // Update the score tracker
                     if (question.getAnswerAtPosition(answerIndex).isCorrect()){
                         this.numCorrect++;
                     } else {
                         this.numWrong++;
                     }
                 }
-
+                // Go to the next question
                 questionIndex++;
             }   
         }
 
+        // The voting has been completed
         this.hasVoted = true;
     }
 
@@ -137,37 +152,47 @@ public class VotingService {
      */
     public void printStatistics(){
 
+        // If the user tries printing statistics before running the simulation
         if (!hasVoted){
             throw new IllegalStateException(
                 "The statistics for this service have not been calculated." +
-                "Make sure to run `chooseAnswers() before printing the statistics."
+                " Make sure to run `chooseAnswers() before printing the statistics."
             );
         }
 
+        // Initialize indices for the question and answer so they aren't remade later
         int questionIndex = 0;
         int answerIndex = 0;
 
+        // Loop through each Question in the set
         for (QuestionInterface question : questionSet){
+            // Print the question
             System.out.println(question.getQuestionString());
-            answerIndex = 0;
             
+            // Loop through each Answer in the Question's Answer set
+            answerIndex = 0;
             for (Answer answer : question.getPossibleAnswers()){
+                // Send the answer string and how many students chose it
+                System.out.print(answer.getAnswerString() + " : ");
+                System.out.print(this.statistics[questionIndex][answerIndex]);
+                
+                // If the answer is correct, mark it accordingly
                 if (answer.isCorrect()){
-                    System.out.print(answer.getAnswerString() + " : ");
-                    System.out.print(this.statistics[questionIndex][answerIndex]);
                     System.out.println("**");
                 } else {
-                    System.out.print(answer.getAnswerString() + " : ");
-                    System.out.println(this.statistics[questionIndex][answerIndex]);
+                    System.out.println();
                 }
-
+                
+                // Go to the next answer
                 answerIndex++;
             }
             
+            // Separate the questions and go to the next question
             System.out.println();
             questionIndex++;
         }
         
+        // Final statistics of the total number of correct and incorrect answers chosen
         System.out.println("Total Correct: " + this.numCorrect);
         System.out.println("Total Incorrect: " + this.numWrong);
     }

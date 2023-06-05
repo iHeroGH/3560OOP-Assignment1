@@ -61,18 +61,24 @@ public class Student {
      * @return A set of indices for the answers of a question
      */
     public Set<Integer> getAnswerIndices(QuestionInterface question){
+        // Initialize a Set for the output answer indices 
         Set<Integer> answerIndices = new HashSet<Integer>();
+        // The Question's possible Answers
         Set<Answer> possibleAnswers = question.getPossibleAnswers();
-
-         
+        
+        // Start with a random number from 0-possibleAnswers' size
         double randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
         int answerIndex = (int) Math.floor(randomNum);
         
-        int answerCount = 1;
+        // Calculate how many Answers to randomly choose
+        int answerCount = 1; // Start with 1 (a single-choice question)
         if (question.getIsMultipleChoice()){
+            // If the question is multiple choice, the random number generated
+            // is how many answers we choose
             answerCount = answerIndex;
         }
 
+        // Choose a new random number for every answer to choose
         for(int i = 0; i < answerCount; i++){
             randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
             answerIndex = (int) Math.floor(randomNum);
@@ -80,6 +86,7 @@ public class Student {
             answerIndices.add(answerIndex);
         }
 
+        // Return the indices set
         return answerIndices;
     }
 
@@ -90,9 +97,10 @@ public class Student {
      * @return A set of Answers chosen by the Student
      */
     public Set<Answer> chooseAnswers(QuestionInterface question){
-        
+        // Get the set of indices to find Answers for
         Set<Integer> answerIndices = getAnswerIndices(question);
 
+        // Return the Set of Answers
         return question.getAnswersAtPositions(answerIndices);
     }
 
@@ -113,10 +121,12 @@ public class Student {
      * @throws IllegalArgumentException If the ID is already in use
      */
     public void setID(String generatedID){
+        // If the ID is already in use
         if (usedIDs.contains(studentID)){
             throw new IllegalArgumentException("The provided student ID is already in use.");
         }
 
+        // Otherwise, add it and use it
         usedIDs.add(generatedID);
         this.studentID = generatedID;
     }
@@ -130,8 +140,9 @@ public class Student {
      * @return The generated user ID (guaranteed to be unique)
      */
     private static String findValidID(){
+        
+        // Keep generating IDs until one is found
         String generatedID = generateRandomID();
-
         while (usedIDs.contains(generatedID)){
             generatedID = generateRandomID();
         }
@@ -152,14 +163,18 @@ public class Student {
                                     +"ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
                                     + "abcdefghijklmnopqrstuvwxyz";
         
+        
+        // Generate an ID of length ID_LENGTH
         String generatedID = "";
         for (int i = 0; i < ID_LENGTH; i++){
+            // Find a random character from the possible characters and add it
             double randomNum = Math.random()*(possibleCharacters.length()-1) + 1;
             int characterIndex = (int) Math.floor(randomNum);
             
             generatedID += possibleCharacters.substring(characterIndex, characterIndex+1);
         }
         
+        // Return the ID
         return generatedID;
     }
 

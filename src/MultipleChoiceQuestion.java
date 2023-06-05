@@ -9,7 +9,7 @@
  * @author George Matta
  * @version 1.0
  */
-public class MultipleChoiceQuestion extends Question{
+public class MultipleChoiceQuestion extends Question {
 
     /**
      * A simple constructor for a MultipleChoieQuestion object, only takes a questionString
@@ -33,7 +33,8 @@ public class MultipleChoiceQuestion extends Question{
      * @throws IllegalArgumentException If the answer is already a possible answer
      */
     @Override
-    public void addPossibleAnswer(String answerString, boolean isCorrect) {
+    public void addPossibleAnswer(String answerString, boolean isCorrect){
+        // Set.Add returns false if the object was already in the set
         if  (!this.answerSet.add(new Answer(answerString, isCorrect))){
             throw new IllegalArgumentException("That answer is already a possible answer.");
         }

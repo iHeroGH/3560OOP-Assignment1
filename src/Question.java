@@ -75,6 +75,7 @@ public class Question implements QuestionInterface {
     @Override    
     public Answer getAnswerAtPosition(int answerIndex){
 
+        // Loop through the answers until we find a matching index
         int i = 0;
         for (Answer ans : this.answerSet){
             if (i == answerIndex){
@@ -83,6 +84,7 @@ public class Question implements QuestionInterface {
             i += 1;
         }
 
+        // If we don't find an answer, return an empty, false, answer
         return new Answer("", false);
     }
 
@@ -93,14 +95,16 @@ public class Question implements QuestionInterface {
     public Set<Answer> getAnswersAtPositions(Set<Integer> answerIndices){
         Set<Answer> answersSet = new HashSet<Answer>();
         
+        // Call getAnswerAtPosition on every position given
         for(int answerIndex : answerIndices){
             Answer ansAtPos = getAnswerAtPosition(answerIndex);
+            // If an answer was found, add it to the set
             if (!ansAtPos.equals(""))
                 answersSet.add(ansAtPos);
         }
-
+        
+        // Return the set
         return answersSet;
-
     }
 
     /**
@@ -115,6 +119,7 @@ public class Question implements QuestionInterface {
             throw new UnsupportedOperationException("Question already has a correct answer.");
         }
         
+        // Set.add returns false if the item was already in the set
         if  (!answerSet.add(new Answer(answerString, isCorrect))){
             throw new IllegalArgumentException("Answer is already a possible answer.");
         }
@@ -166,12 +171,14 @@ public class Question implements QuestionInterface {
      */
     @Override
     public boolean hasCorrectAnswer(){
+        // Loop through all the answers until we find any that are correct
         for (Answer ans : this.answerSet){
             if (ans.isCorrect()){
                 return true;
             }
         }
 
+        // If none are found, there are no correct answers
         return false;
     }
 

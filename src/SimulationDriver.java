@@ -23,9 +23,11 @@ public class SimulationDriver {
      * @param args The basic String[] args for any main method in Java
      */
     public static void main(String[] args){
+        // Generate Students and Questions
         Set<Student> studentSet = generateStudents(10);
         Set<QuestionInterface> questionSet = generateQuestions();
 
+        // Run the Voting Service and prints statistics
         VotingService vs = new VotingService(studentSet, questionSet);
         vs.chooseAnswers();
         vs.printStatistics();
@@ -40,16 +42,19 @@ public class SimulationDriver {
      */
     private static Set<Student> generateStudents(int numStudents){
         
+        // If numStudents is not positive, we can't generate any students
         if (numStudents <= 0){
             throw new IllegalArgumentException("numStudents must be a positive integer");
         }
 
         Set<Student> studentSet = new HashSet<Student>();
-
+        
+        // Add a random student to the student set
         for(int i = 0; i < numStudents; i++){
             studentSet.add(new Student());
         }
         
+        // Return the student set
         return studentSet;
     }
 
@@ -60,30 +65,34 @@ public class SimulationDriver {
      * @return The Set of Questions
      */
     private static Set<QuestionInterface> generateQuestions(){
+        // Demos the addCorrectAnswer function
         QuestionInterface q1 = new Question("What is 1 + 1?");
         q1.addCorrectAnswer("2");
         q1.addPossibleAnswer("1", false);
         q1.addPossibleAnswer("3", false);
 
+        // Demos having many options, none use addCorrectAnswer but use
+        // addPossibleAnswer
         QuestionInterface q2 = new Question("What is 2 + 2?");
-        q2.addPossibleAnswer("5", false);
+        q2.addPossibleAnswer("5");
         q2.addPossibleAnswer("4", true);
         q2.addPossibleAnswer("3", false);
         q2.addPossibleAnswer("55", false);
         q2.addPossibleAnswer("15", false);
-
+        
+        // Demos the MultipleChoiceQuestion constructor
         QuestionInterface q3 = new MultipleChoiceQuestion("What is a multiple of 5?");
         q3.addCorrectAnswer("10");
         q3.addCorrectAnswer("20");
         q3.addCorrectAnswer("30");
-        q3.addCorrectAnswer("40");
+        q3.addPossibleAnswer("2342340");
         q3.addPossibleAnswer("43", false);
         
+        // Adds the created questions to a set and returns it
         Set<QuestionInterface> questionSet = new HashSet<QuestionInterface>();
         questionSet.add(q1);
         questionSet.add(q2);
         questionSet.add(q3);
-
         return questionSet;
     }
 
