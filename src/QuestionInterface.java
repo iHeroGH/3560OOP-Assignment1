@@ -6,6 +6,8 @@ public interface QuestionInterface {
     public void setQuestionString(String questionString);
 
     public Set<Answer> getPossibleAnswers();
+    public Answer getAnswerAtPosition(int answerIndex);
+    public Set<Answer> getAnswersAtPositions(Set<Integer> answerIndices);
 
     public void addPossibleAnswer(String answerString, boolean isCorrect);
     public void addPossibleAnswer(String answerString);

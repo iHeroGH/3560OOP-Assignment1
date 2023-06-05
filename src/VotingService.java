@@ -5,19 +5,19 @@ import java.util.Arrays;
 public class VotingService {
     
     protected Set<Student> studentList;
-    protected Set<Question> questionList;
+    protected Set<QuestionInterface> questionList;
     protected int numCorrect;
     protected int numWrong;
     protected int[][] statistics;
 
-    public VotingService(Student[] studentList, Question[] questionList){
+    public VotingService(Student[] studentList, QuestionInterface[] questionList){
         this(
             new HashSet<Student>(Arrays.asList(studentList)),
-            new HashSet<Question>(Arrays.asList(questionList))
+            new HashSet<QuestionInterface>(Arrays.asList(questionList))
         );
     }
 
-    public VotingService(Set<Student> studentList, Set<Question> questionList){
+    public VotingService(Set<Student> studentList, Set<QuestionInterface> questionList){
         this.studentList = studentList;
         this.questionList = questionList;
 
@@ -28,7 +28,7 @@ public class VotingService {
         this.statistics = new int[numQuestions][];
 
         int i = 0;
-        for (Question question : this.questionList){
+        for (QuestionInterface question : this.questionList){
             this.statistics[i++] = new int[question.getPossibleAnswers().size()];
         }
     }
@@ -39,7 +39,7 @@ public class VotingService {
 
         for (Student student : studentList){
             questionIndex = 0;
-            for (Question question : questionList){
+            for (QuestionInterface question : questionList){
                 answerIndices = student.getAnswerIndices(question);
                 for(int answerIndex : answerIndices) {
                     this.statistics[questionIndex][answerIndex]++;
@@ -60,7 +60,7 @@ public class VotingService {
         int questionIndex = 0;
         int answerIndex = 0;
 
-        for (Question question : questionList){
+        for (QuestionInterface question : questionList){
             System.out.println(question.getQuestionString());
             answerIndex = 0;
             

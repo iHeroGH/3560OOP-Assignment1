@@ -30,6 +30,34 @@ public class Question implements QuestionInterface {
         return this.answerList;
     }
 
+    @Override    
+    public Answer getAnswerAtPosition(int answerIndex){
+
+        int i = 0;
+        for (Answer ans : this.answerList){
+            if (i == answerIndex){
+                return ans;
+            }
+            i += 1;
+        }
+
+        return new Answer("", false);
+    }
+    
+    @Override
+    public Set<Answer> getAnswersAtPositions(Set<Integer> answerIndices){
+        Set<Answer> answersList = new HashSet<Answer>();
+        
+        for(int answerIndex : answerIndices){
+            Answer ansAtPos = getAnswerAtPosition(answerIndex);
+            if (!ansAtPos.equals(""))
+                answersList.add(ansAtPos);
+        }
+
+        return answersList;
+
+    }
+
     @Override
     public void addPossibleAnswer(String answerString, boolean isCorrect) {
         if (isCorrect && this.hasCorrectAnswer()){
@@ -81,31 +109,4 @@ public class Question implements QuestionInterface {
     public boolean getIsMultipleChoice(){
         return this.isMultipleChoice;
     }
-
-    public Answer getAnswerAtPosition(int answerIndex){
-
-        int i = 0;
-        for (Answer ans : this.answerList){
-            if (i == answerIndex){
-                return ans;
-            }
-            i += 1;
-        }
-
-        return new Answer("", false);
-    }
-
-    public Set<Answer> getAnswersAtPositions(Set<Integer> answerIndices){
-        Set<Answer> answersList = new HashSet<Answer>();
-        
-        for(int answerIndex : answerIndices){
-            Answer ansAtPos = getAnswerAtPosition(answerIndex);
-            if (!ansAtPos.equals(""))
-                answersList.add(ansAtPos);
-        }
-
-        return answersList;
-
-    }
-
 }

@@ -16,7 +16,7 @@ public class Student {
         this.setID(studentID);
     }
 
-    public Set<Integer> getAnswerIndices(Question question){
+    public Set<Integer> getAnswerIndices(QuestionInterface question){
         Set<Integer> answerIndices = new HashSet<Integer>();
         Set<Answer> possibleAnswers = question.getPossibleAnswers();
 
@@ -38,7 +38,7 @@ public class Student {
         return answerIndices;
     }
 
-    public Set<Answer> chooseAnswers(Question question){
+    public Set<Answer> chooseAnswers(QuestionInterface question){
         
         Set<Integer> answerIndices = getAnswerIndices(question);
 
