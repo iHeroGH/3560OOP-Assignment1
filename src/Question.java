@@ -83,7 +83,7 @@ public class Question implements QuestionInterface {
     }
 
     public Answer getAnswerAtPosition(int answerIndex){
-        
+
         int i = 0;
         for (Answer ans : this.answerList){
             if (i == answerIndex){
@@ -93,6 +93,18 @@ public class Question implements QuestionInterface {
         }
 
         return new Answer("", false);
+    }
+
+    public Set<Answer> getAnswersAtPositions(Set<Integer> answerIndices){
+        Set<Answer> answersList = new HashSet<Answer>();
+        
+        for(int answerIndex : answerIndices){
+            Answer ansAtPos = getAnswerAtPosition(answerIndex);
+            if (!ansAtPos.equals(""))
+                answersList.add(ansAtPos);
+        }
+
+        return answersList;
 
     }
 

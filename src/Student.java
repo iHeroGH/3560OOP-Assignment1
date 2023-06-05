@@ -16,24 +16,33 @@ public class Student {
         this.setID(studentID);
     }
 
-    public int getAnswerIndex(Set<Answer> possibleAnswers){
+    public Set<Integer> getAnswerIndices(Question question){
+        Set<Integer> answerIndices = new HashSet<Integer>();
+        Set<Answer> possibleAnswers = question.getPossibleAnswers();
+
         double randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
         int answerIndex = (int) Math.floor(randomNum);
-
-        return answerIndex;
-    }
-
-    public int getAnswerIndex(Question question){
-        return getAnswerIndex(question.getPossibleAnswers());
-    }
-
-    public Answer chooseAnswer(Question question){
-
-        Set<Answer> possibleAnswers = question.getPossibleAnswers();
         
-        int answerIndex = getAnswerIndex(possibleAnswers);
+        int answerCount = 1;
+        if (question.getIsMultipleChoice()){
+            answerCount = answerIndex;
+        }
 
-        return question.getAnswerAtPosition(answerIndex);
+        for(int i = 0; i < answerCount; i++){
+            randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
+            answerIndex = (int) Math.floor(randomNum);
+
+            answerIndices.add(answerIndex);
+        }
+
+        return answerIndices;
+    }
+
+    public Set<Answer> chooseAnswers(Question question){
+        
+        Set<Integer> answerIndices = getAnswerIndices(question);
+
+        return question.getAnswersAtPositions(answerIndices);
     }
 
     public String getID(){

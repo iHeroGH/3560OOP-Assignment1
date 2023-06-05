@@ -6,12 +6,12 @@ public class SimulationDriver {
     public static void main(String[] args){
         Set<Student> studentList = new HashSet<Student>();
         studentList.add(new Student());
-        studentList.add(new Student());
-        studentList.add(new Student());
-        studentList.add(new Student());
-        studentList.add(new Student());
-        studentList.add(new Student());
-        studentList.add(new Student());
+        // studentList.add(new Student());
+        // studentList.add(new Student());
+        // studentList.add(new Student());
+        // studentList.add(new Student());
+        // studentList.add(new Student());
+        // studentList.add(new Student());
 
         Question q1 = new Question("What is 1 + 1?");
         q1.addCorrectAnswer("2");

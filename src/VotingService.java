@@ -35,18 +35,20 @@ public class VotingService {
 
     public void chooseAnswers(){
         int questionIndex = 0;
-        int answerIndex = 0;
+        Set<Integer> answerIndices = null;
 
         for (Student student : studentList){
             questionIndex = 0;
             for (Question question : questionList){
-                answerIndex = student.getAnswerIndex(question);
-                this.statistics[questionIndex][answerIndex]++;
-                
-                if (question.getAnswerAtPosition(answerIndex).isCorrect()){
-                    this.numCorrect++;
-                } else {
-                    this.numWrong++;
+                answerIndices = student.getAnswerIndices(question);
+                for(int answerIndex : answerIndices) {
+                    this.statistics[questionIndex][answerIndex]++;
+                    
+                    if (question.getAnswerAtPosition(answerIndex).isCorrect()){
+                        this.numCorrect++;
+                    } else {
+                        this.numWrong++;
+                    }
                 }
 
                 questionIndex++;
