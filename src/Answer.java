@@ -125,7 +125,7 @@ public class Answer {
     }
 
     /**
-     * A String representation of the answer
+     * A String representation of the Answer object
      * 
      * @return The Answer object as a String `Answer("answerString", isCorrect)`
      */

@@ -181,4 +181,67 @@ public class Student {
         return generatedID;
     }
 
+    /**
+     * Retrieves the Student ID's hashcode
+     * 
+     * @return The student ID's hashcode (retrieved by calling hashcode() on it).
+     */
+    @Override
+    public int hashCode(){
+        return this.studentID.hashCode();
+    }
+
+    /**
+     * Checks if this Student object is equal to another object
+     * 
+     * This method checks if the other object is an Student object, then delegates
+     * to the equals(Student) method
+     * 
+     * @param other The other object to check equality for
+     * @return Whether or not the objects are equal
+     */
+    @Override
+    public boolean equals(Object other){
+        if (!(other instanceof Student)){
+            return false;
+        }
+
+        return this.equals((Student) other);
+    }
+
+    /**
+     * Checks if this Student object is equal to another Student object
+     * 
+     * This method delegates to the equals(String) method to check if the Student
+     * object equals the other's Student ID
+     * 
+     * @param other The other Student object to check equality for
+     * @return Whether or not the objects are equal
+     */
+    public boolean equals(Student other){
+        return this.equals(other.studentID);
+    }
+
+    /**
+     * Checks if this Student object is equal to a String. They are equal if
+     * this Student ID is equal to the given string
+     * 
+     * Delegates to the String.equals(String) method
+     * 
+     * @param studentID The String to compare studentIDs with
+     * @return Whether or not the studentIDs are equal
+     */
+    public boolean equals(String studentID){
+        return this.studentID.equals(studentID);
+    }
+
+    /**
+     * A String representation of the Student object
+     * 
+     * @return The Student object as a String `Student("userID")`
+     */
+    @Override
+    public String toString(){
+        return "Student(" + this.studentID + ")";
+    }
 }
