@@ -67,20 +67,23 @@ public class Student {
         Set<Answer> possibleAnswers = question.getPossibleAnswers();
         
         // Start with a random number from 0-possibleAnswers' size
-        double randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
+        double randomNum = Math.random()*(possibleAnswers.size());
         int answerIndex = (int) Math.floor(randomNum);
-        
+
         // Calculate how many Answers to randomly choose
         int answerCount = 1; // Start with 1 (a single-choice question)
         if (question.getIsMultipleChoice()){
             // If the question is multiple choice, the random number generated
             // is how many answers we choose
             answerCount = answerIndex;
+            if (answerIndex == 0){
+                answerCount = 1;
+            }
         }
 
         // Choose a new random number for every answer to choose
         for(int i = 0; i < answerCount; i++){
-            randomNum = Math.random()*(possibleAnswers.size()-1) + 1;
+            randomNum = Math.random()*(possibleAnswers.size());
             answerIndex = (int) Math.floor(randomNum);
 
             answerIndices.add(answerIndex);

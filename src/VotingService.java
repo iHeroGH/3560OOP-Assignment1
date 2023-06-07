@@ -1,5 +1,7 @@
 import java.util.Set;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.Arrays;
 
 /**
@@ -19,9 +21,11 @@ import java.util.Arrays;
 public class VotingService {
     
     /**
-     * The Set of Students
+     * A Map of Student to their selected answers matrix 
+     * 
+     * matrix[i] would be the selections array made for Question index i
      */
-    private Set<Student> studentSet;
+    private Map<Student, Set<Integer>[]> studentAnswersMap;
 
     /**
      * The Set of Questions
@@ -79,28 +83,68 @@ public class VotingService {
      * @param questionSet The Set of Questions
      */
     public VotingService(Set<Student> studentSet, Set<QuestionInterface> questionSet){
-        this.studentSet = studentSet;
         this.questionSet = questionSet;
-
+        
+        initializeStudentAnswersMap(studentSet);
         initializeStatistics();
     }
 
     /**
-     * Initializes the satistics int array depending on how many questions exist
+     * Intializes the Student->Answers map
+     * 
+     * @param studentSet The set of all Students
+     */
+    @SuppressWarnings("unchecked")
+    private void initializeStudentAnswersMap(Set<Student> studentSet){
+        this.studentAnswersMap = new HashMap<Student, Set<Integer>[]>();
+
+        Set<Integer>[] answersSets = new HashSet[questionSet.size()]; 
+
+        for(Student student : studentSet){
+            
+            for(int i = 0; i < questionSet.size(); i++){
+                answersSets[i] = new HashSet<Integer>(); 
+            }
+
+            this.studentAnswersMap.put(student, answersSets);
+
+            answersSets = new HashSet[questionSet.size()];
+        }
+    }
+
+    /**
+     * Initializes the statistics int array depending on how many questions exist
      * and how many answers exist for each question
      */
     private void initializeStatistics(){
         // As many rows as there are questions
-        this.statistics = new int[this.questionSet.size()][];
-
-        // As many columns as there are answers to each question
-        int i = 0;
-        for (QuestionInterface question : this.questionSet){
-            this.statistics[i++] = new int[question.getPossibleAnswers().size()];
-        }
+        this.statistics = createStatistics(this.questionSet);
 
         // To maintain validation
         this.hasVoted = false;
+    }
+
+    /**
+     * A static method to create a viable matrix for the statistics
+     * 
+     * The return matrix has many rows as there are questions, and each column has
+     * as many entries as there are possible answers for that question
+     * 
+     * matrix[i][j] = Answer index j at Question index i
+     * 
+     * @param questionSet The set of all the Questions
+     * @return The created statistics matrix
+     */
+    private static int[][] createStatistics(Set<QuestionInterface> questionSet){
+        int[][] statistics = new int[questionSet.size()][];
+
+        // As many columns as there are answers to each question
+        int i = 0;
+        for (QuestionInterface question : questionSet){
+            statistics[i++] = new int[question.getPossibleAnswers().size()];
+        }
+
+        return statistics;
     }
 
     /**
@@ -114,16 +158,36 @@ public class VotingService {
         Set<Integer> answerIndices = null;
         // The index of the question we're currently on
         int questionIndex = 0;
+        // The Student currently being looped through
+        Student student = null;
+        Set<Integer>[] studentAnswers = null;
 
         // Loop through each student
-        for (Student student : studentSet){
+        for (Map.Entry<Student, Set<Integer>[]> studentAnswersEntry : this.studentAnswersMap.entrySet()){
+            student = studentAnswersEntry.getKey();
+            studentAnswers = studentAnswersEntry.getValue();
             questionIndex = 0; // We have a new Student, so start at the first question
 
             // Loop through each question and see what answers the Student responds with
             for (QuestionInterface question : questionSet){
-                
+                if(studentAnswers[questionIndex] != null && studentAnswers[questionIndex].size() > 0){
+                    answerIndices = studentAnswers[questionIndex];
+                    for(int answerIndex : answerIndices){
+                        this.statistics[questionIndex][answerIndex]--;
+
+                        if (question.getAnswerAtPosition(answerIndex).isCorrect()){
+                            this.numCorrect--;
+                        } else {
+                            this.numWrong--;
+                        }
+                    }
+
+                    studentAnswers[questionIndex] = null;
+                }
+
                 // Get the indices of chosen answers
                 answerIndices = student.getAnswerIndices(question);
+                studentAnswers[questionIndex] = answerIndices;
                 // Loop  through each index
                 for(int answerIndex : answerIndices) {
                     // Update the main statistics table

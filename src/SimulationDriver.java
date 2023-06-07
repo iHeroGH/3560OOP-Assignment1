@@ -31,6 +31,18 @@ public class SimulationDriver {
         VotingService vs = new VotingService(studentSet, questionSet);
         vs.chooseAnswers();
         vs.printStatistics();
+
+        System.out.println("\n----------------- Re-Voting -----------------\n");
+        vs.chooseAnswers();
+        vs.printStatistics();
+
+        System.out.println("\n----------------- Re-Voting -----------------\n");
+        vs.chooseAnswers();
+        vs.printStatistics();
+
+        System.out.println("\n----------------- Re-Voting -----------------\n");
+        vs.chooseAnswers();
+        vs.printStatistics();
     }
 
     /**
@@ -85,14 +97,23 @@ public class SimulationDriver {
         q3.addCorrectAnswer("10");
         q3.addCorrectAnswer("20");
         q3.addCorrectAnswer("30");
-        q3.addPossibleAnswer("2342340");
+        q3.addPossibleAnswer("24");
         q3.addPossibleAnswer("43", false);
+
+        QuestionInterface q4 = new MultipleChoiceQuestion("Which are CalState Campuses?");
+        q4.addCorrectAnswer("CalPoly Pomona");
+        q4.addCorrectAnswer("CalPoly Slo");
+        q4.addCorrectAnswer("CalState Fullterton");
+        q4.addPossibleAnswer("USC");
+        q4.addPossibleAnswer("CalState Chicago");
+        q4.addPossibleAnswer("CP Pomona");
         
         // Adds the created questions to a set and returns it
         Set<QuestionInterface> questionSet = new HashSet<QuestionInterface>();
         questionSet.add(q1);
         questionSet.add(q2);
         questionSet.add(q3);
+        questionSet.add(q4);
         return questionSet;
     }
 
