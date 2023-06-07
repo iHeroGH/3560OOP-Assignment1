@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Answer"},{"p":"<Unnamed>","l":"MultipleChoiceQuestion"},{"p":"<Unnamed>","l":"Question"},{"p":"<Unnamed>","l":"QuestionInterface"},{"p":"<Unnamed>","l":"SimulationDriver"},{"p":"<Unnamed>","l":"Student"},{"p":"<Unnamed>","l":"VotingService"}];updateSearchResults();
