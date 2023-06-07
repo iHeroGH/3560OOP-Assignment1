@@ -16,14 +16,14 @@ import java.util.Arrays;
  * statistics.
  * 
  * @author George Matta
- * @version 1.0
+ * @version 1.1
  */
 public class VotingService {
     
     /**
      * A Map of Student to their selected answers matrix 
      * 
-     * matrix[i] would be the selections array made for Question index i
+     * matrix[i] would be the selections set made for Question index i
      */
     private Map<Student, Set<Integer>[]> studentAnswersMap;
 
@@ -92,6 +92,9 @@ public class VotingService {
     /**
      * Intializes the Student->Answers map
      * 
+     * studentAnswersMap[student][i] would be the Set of Integer indexes of the answers
+     * of Question index i
+     * 
      * @param studentSet The set of all Students
      */
     @SuppressWarnings("unchecked")
@@ -100,14 +103,17 @@ public class VotingService {
 
         Set<Integer>[] answersSets = new HashSet[questionSet.size()]; 
 
+        // For each Student, set their answers set
         for(Student student : studentSet){
             
+            // As many answer sets as there are questions
             for(int i = 0; i < questionSet.size(); i++){
                 answersSets[i] = new HashSet<Integer>(); 
             }
 
             this.studentAnswersMap.put(student, answersSets);
-
+            
+            // Prepare for the next iteration
             answersSets = new HashSet[questionSet.size()];
         }
     }
